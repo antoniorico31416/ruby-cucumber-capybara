@@ -31,7 +31,6 @@ class NewEgg
       page.email_field.set user 
       sleep(1)
       page.signin_btn.click
-      $logs.log("1")
       #check if access code is required 
       i = 0
       code_xpath = "//input[(@type='number') and contains(@aria-label, 'verify code #{i+1}')]"
