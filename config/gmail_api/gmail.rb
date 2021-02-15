@@ -32,10 +32,10 @@ class Gmail
   
   def authorize
     begin
-      #gmail_tokens = YAML.load_file("/gmail_tokens.yaml")
-      client = "277264853605-shrnb8qg2sbs7p4dsgoclhikbarb26be.apps.googleusercontent.com"#gmail_tokens['installed']['client_id']
-      secret = "ZlPJCTJ_alrWyIkYVUGvZGFG"#gmail_tokens['client_secret']['client_id']
-      client_id = Google::Auth::ClientId.new("277264853605-shrnb8qg2sbs7p4dsgoclhikbarb26be.apps.googleusercontent.com", "ZlPJCTJ_alrWyIkYVUGvZGFG")
+      gmail_tokens = YAML.load_file("/gmail_tokens.yaml")
+      client = gmail_tokens['installed']['client_id']
+      secret = gmail_tokens['client_secret']['client_id']
+      client_id = Google::Auth::ClientId.new(client, secret)
       token_store = Google::Auth::Stores::FileTokenStore.new file: TOKEN_PATH
       authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
       user_id = "default"
@@ -53,32 +53,6 @@ class Gmail
     
     end
   end
-
-  # def get_messages(query)
-  #   begin
-  #     user_id = "me"
-  #     messages = nil 
-
-  #     messages = @service.list_user_messages(user_id, q: query)
-  #     i = 0
-
-  #     until !messages.blank? && i <= TOTAL_ATTEMPTS do 
-  #       sleep(30)
-  #       messages = @service.list_user_messages(user_id, q: query)
-  #       i = i+1
-  #     end
-
-  #     if 
-  #       id_message = message.messages[0].id 
-  #       message = service.get_user_message(user_id, id_message)
-  #       message_payload = message.payload.body.data
-  #     end
-  #   rescue => exception
-  #     message_payload = nil
-  #   ensure
-  #     return message_payload
-  #   end
-  # end
 
   def search_email(q_search)
     begin
@@ -142,11 +116,14 @@ class Gmail
     end
     return access_code
   end # end get_access_code_newegg
-  
 
-  #puts "Hola"
-  
-  
+
+end
+#for testing porpouses
+#test = Gmail.new()
+# service = Google::Apis::GmailV1::GmailService.new
+# service.client_options.application_name = APPLICATION_NAME
+# service.authorization = authorize
   # begin
   #   file = File.open("Raw.html", "w")
   #   file.write(parsed_message) 
@@ -155,10 +132,4 @@ class Gmail
   # ensure
   #   file.close unless file.nil?
   # end
-
-end
-test = Gmail.new()
-# service = Google::Apis::GmailV1::GmailService.new
-# service.client_options.application_name = APPLICATION_NAME
-# service.authorization = authorize
 
