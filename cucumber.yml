@@ -1,0 +1,2 @@
+default: --require features --format pretty --publish-quiet
+
